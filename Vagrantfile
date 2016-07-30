@@ -22,10 +22,13 @@ Vagrant.configure("2") do |config|
 
   # Create a forwarded port mapping
   config.vm.network "forwarded_port", guest: 80, host: 8080
+    auto_correct: true
   # Forward Django development-server port
   config.vm.network "forwarded_port", guest: 8000, host: 8000
+    auto_correct: true
   # Forward PostgreSQL port
   config.vm.network "forwarded_port", guest: 5432, host: 15432
+    auto_correct: true
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is

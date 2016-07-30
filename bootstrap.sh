@@ -79,8 +79,13 @@ yes | pacman -S python python-pip
 
 pip install -r requirements.pip
 
-echo 'export DJANGO_SECRET_KEY="io&o60txl_-0k=((ap@ykvrbs%n#!wpltaja-jul0pta(d40d4"' >> /etc/profile
-echo 'export POSTGRES_DB_PW=$APP_DB_PASS' >> /etc/profile
+
+# set environment variables which will be read from django
+echo "export DJANGO_SECRET_KEY="io&o60txl_-0k=((ap@ykvrbs%n#!wpltaja-jul0pta(d40d4"" >> /etc/profile
+echo "export DJANGO_DB_USER=$APP_DB_USER' >> /etc/profile
+echo "export DJANGO_DB_NAME=$APP_DB_NAME' >> /etc/profile
+echo "export DJANGO_DB_PW=$APP_DB_PASS' >> /etc/profile
+
 echo "Successfully installed python & django."
 echo "##############################################"
 echo ""
