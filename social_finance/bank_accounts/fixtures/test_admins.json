@@ -1,0 +1,23 @@
+[
+    { "model": "auth.user",
+        "pk": 1,
+        "fields": {
+            "username": "Peter",
+            "password": "peters_password"
+        }
+    },
+    { "model": "auth.user",
+        "pk": 2,
+        "fields": {
+            "username": "Paul",
+            "password": "pauls_password"
+        }
+    },
+    { "model": "auth.user",
+        "pk": 3,
+        "fields": {
+            "username": "Mary",
+            "password": "marrys_password"
+        }
+    }
+]

@@ -52,7 +52,7 @@ systemctl restart postgresql.service
 
 cat << EOF | su - postgres -c psql
 -- Create the database user:
-CREATE USER $APP_DB_USER WITH PASSWORD '$APP_DB_PASS';
+CREATE USER $APP_DB_USER CREATEDB WITH PASSWORD '$APP_DB_PASS';
 
 -- Create the database:
 CREATE DATABASE $APP_DB_NAME WITH OWNER=$APP_DB_USER
@@ -81,10 +81,10 @@ pip install -r requirements.pip
 
 
 # set environment variables which will be read from django
-echo "export DJANGO_SECRET_KEY="io&o60txl_-0k=((ap@ykvrbs%n#!wpltaja-jul0pta(d40d4"" >> /etc/profile
-echo "export DJANGO_DB_USER=$APP_DB_USER' >> /etc/profile
-echo "export DJANGO_DB_NAME=$APP_DB_NAME' >> /etc/profile
-echo "export DJANGO_DB_PW=$APP_DB_PASS' >> /etc/profile
+echo 'export DJANGO_SECRET_KEY="io&o60txl_-0k=((ap@ykvrbs%n#!wpltaja-jul0pta(d40d4"' >> /etc/profile
+echo "export DJANGO_DB_USER=$APP_DB_USER" >> /etc/profile
+echo "export DJANGO_DB_NAME=$APP_DB_NAME" >> /etc/profile
+echo "export DJANGO_DB_PW=$APP_DB_PASS" >> /etc/profile
 
 echo "Successfully installed python & django."
 echo "##############################################"

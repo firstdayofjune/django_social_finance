@@ -1,8 +1,15 @@
+import os
+
 from bank_accounts import models
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 
 class UserValidationTest(TestCase):
+	fixtures = [
+		os.path.join('bank_accounts', 'fixtures', 'test_admins.json'),
+	]
+
 
 	def test_firstname_does_not_allow_special_characters(self):
 		# [^(!"#\$%'\(\)\*\+\/\\:;<=>\?@\[\]\^_`\{\|\}~)]
@@ -28,6 +35,20 @@ class UserValidationTest(TestCase):
 
 
 class UserManipulationTest(TestCase):
+	fixtures = [
+		os.path.join('bank_accounts', 'fixtures', 'test_admins.json'),
+	]
+
+	@classmethod
+	def setUpClass(cls):
+	    cls.User = get_user_model()
+
+	    # Fix the clear-text passwords of fixtures
+	    for user in cls.User.objects.all():
+	        user.set_password(user.password)
+	        user.save()
+
+	    super(UserManipulationTest, cls).setUpClass()
 
 	def test_user_cannot_be_updated_by_foreign_admin(self):
 		pass
