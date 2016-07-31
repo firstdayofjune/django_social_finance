@@ -38,7 +38,7 @@ class BankUser(models.Model):
 
 class BankAccount(models.Model):
 	"""A bank-users account which stores the IBAN."""
-	iban_regex = r'^[A-Z]{2}$'
+	iban_regex = r'^[A-Z]{2}\d\d([A-Z]|\d){1,30}$'
 	message = _('Not a valid IBAN-format.')
 	code = 'invalid'
 	iban_format_validator = RegexValidator(iban_regex, message, code)
