@@ -38,8 +38,13 @@ class BankUser(models.Model):
 
 class BankAccount(models.Model):
 	"""A bank-users account which stores the IBAN."""
+	iban_regex = r'^[A-Z]{2}$'
+	message = _('Not a valid IBAN-format.')
+	code = 'invalid'
+	iban_format_validator = RegexValidator(iban_regex, message, code)
+
 	holder = models.ForeignKey(BankUser)
-	iban = models.CharField(max_length=34, validators=[NoSpecialCharacters()])
+	iban = models.CharField(max_length=34, validators=[NoSpecialCharacters(), iban_format_validator])
 
 	def save(self, *args, **kwargs):
 		self.clean_fields()

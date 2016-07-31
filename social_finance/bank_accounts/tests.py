@@ -87,11 +87,22 @@ class UserValidationTest(TestCase):
 		with pytest.raises(ValidationError):
 			account_args = {
 				'holder': self.bank_user,
-				'iban': 'DE55{}{}{}1'.format('0123456789'),
+				'iban': 'DE55{0}{0}{0}1'.format('0123456789'),
 			}
 
 			new_account = models.BankAccount(**account_args)
 			new_account.save()
+
+	def test_well_formated_iban_is_accepted(self):
+		accounts_len = len(models.BankAccount.objects.all())
+		account_args = {
+				'holder': self.bank_user,
+				'iban': 'DE1212345678012345678',
+			}
+
+		new_account = models.BankAccount(**account_args)
+		new_account.save()
+		assert len(models.BankAccount.objects.all()) == accounts_len + 1
 
 
 @pytest.mark.django_db
