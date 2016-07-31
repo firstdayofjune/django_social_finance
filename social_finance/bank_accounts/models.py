@@ -18,7 +18,7 @@ class BankUser(models.Model):
 
 	admin = models.ForeignKey(settings.AUTH_USER_MODEL)
 	firstname = models.CharField(max_length=255, validators=[no_special_characters])
-	lastname = models.CharField(max_length=255)
+	lastname = models.CharField(max_length=255, validators=[no_special_characters])
 
 	def save(self, *args, **kwargs):
 		self.clean_fields()
