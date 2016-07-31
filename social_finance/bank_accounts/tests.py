@@ -22,55 +22,43 @@ class UserValidationTest(TestCase):
 		cls.admin = cls.User.objects.filter(username='Peter')[0]
 		cls.bank_user = models.BankUser.objects.filter(firstname='Peters', lastname='Client')[0]
 
-	def test_firstname_does_not_allow_special_characters(self):
-		invalid_chars = ['!', '"', '#', '$', '%',
+		cls.invalid_chars = ['!', '"', '#', '$', '%',
 			'(', ')', '[', ']', '{', '}', '|',
 			 '*', '+', '/', '\\', ':', '<', '=', '>',
 			 ';', '?', '@', '^', '_', '`', '~',
 			 ]
 
+	def test_firstname_does_not_allow_special_characters(self):
 		with pytest.raises(ValidationError):
 			user_args = {
 				'admin': self.admin,
 				'lastname': 'Valid Name',
 			}
 
-			for invalid_char in invalid_chars:
+			for invalid_char in self.invalid_chars:
 				user_args['firstname'] = 'Inval{}d Name'.format(invalid_char)
 				new_user = models.BankUser(**user_args)
 				new_user.save()
 
 	def test_lastname_does_not_allow_special_characters(self):
-		invalid_chars = ['!', '"', '#', '$', '%',
-			'(', ')', '[', ']', '{', '}', '|',
-			 '*', '+', '/', '\\', ':', '<', '=', '>',
-			 ';', '?', '@', '^', '_', '`', '~',
-			 ]
-
 		with pytest.raises(ValidationError):
 			user_args = {
 				'admin': self.admin,
 				'firstname': 'Valid Name',
 			}
 
-			for invalid_char in invalid_chars:
+			for invalid_char in self.invalid_chars:
 				user_args['lastname'] = 'Inval{}d Name'.format(invalid_char)
 				new_user = models.BankUser(**user_args)
 				new_user.save()
 
 	def test_iban_does_not_allow_special_characters(self):
-		invalid_chars = ['!', '"', '#', '$', '%',
-			'(', ')', '[', ']', '{', '}', '|',
-			 '*', '+', '/', '\\', ':', '<', '=', '>',
-			 ';', '?', '@', '^', '_', '`', '~',
-			 ]
-
 		with pytest.raises(ValidationError):
 			account_args = {
 				'holder': self.bank_user,
 			}
 
-			for invalid_char in invalid_chars:
+			for invalid_char in self.invalid_chars:
 				account_args['iban'] = 'DE1212345678012345678{}'.format(invalid_char)
 				new_account = models.BankAccount(**account_args)
 				new_account.save()
