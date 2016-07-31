@@ -64,16 +64,34 @@ class UserValidationTest(TestCase):
 				new_account.save()
 
 	def test_iban_starts_with_country_code(self):
-		pass
+		with pytest.raises(ValidationError):
+			account_args = {
+				'holder': self.bank_user,
+				'iban': '991212345678012345678',
+			}
+
+			new_account = models.BankAccount(**account_args)
+			new_account.save()
 
 	def test_iban_has_check_digits_after_country_code(self):
-		pass
+		with pytest.raises(ValidationError):
+			account_args = {
+				'holder': self.bank_user,
+				'iban': '99WW12345678012345678',
+			}
+
+			new_account = models.BankAccount(**account_args)
+			new_account.save()
 
 	def test_bban_cannot_exceed_thirty_characters(self):
-		pass
+		with pytest.raises(ValidationError):
+			account_args = {
+				'holder': self.bank_user,
+				'iban': 'DE55{}{}{}1'.format('0123456789'),
+			}
 
-	def test_bban_cannot_contain_special_characters(self):
-		pass
+			new_account = models.BankAccount(**account_args)
+			new_account.save()
 
 
 @pytest.mark.django_db
