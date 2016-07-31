@@ -40,7 +40,22 @@ class UserValidationTest(TestCase):
 				new_user.save()
 
 	def test_lastname_does_not_allow_special_characters(self):
-		pass
+		invalid_chars = ['!', '"', '#', '$', '%',
+			'(', ')', '[', ']', '{', '}', '|',
+			 '*', '+', '/', '\\', ':', '<', '=', '>',
+			 ';', '?', '@', '^', '_', '`', '~',
+			 ]
+
+		with pytest.raises(ValidationError):
+			user_args = {
+				'admin': self.admin,
+				'firstname': 'Valid Name',
+			}
+
+			for invalid_char in invalid_chars:
+				user_args['lastname'] = 'Inval{}d Name'.format(invalid_char)
+				new_user = models.BankUser(**user_args)
+				new_user.save()
 
 	def test_iban_does_not_allow_special_characters(self):
 		pass
