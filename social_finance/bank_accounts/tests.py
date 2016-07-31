@@ -11,6 +11,7 @@ from django.test import TestCase
 class UserValidationTest(TestCase):
 	fixtures = [
 		os.path.join('bank_accounts', 'fixtures', 'test_admins.json'),
+		os.path.join('bank_accounts', 'fixtures', 'test_users.json'),
 	]
 
 	@classmethod
@@ -19,7 +20,7 @@ class UserValidationTest(TestCase):
 
 		cls.User = get_user_model()
 		cls.admin = cls.User.objects.filter(username='Peter')[0]
-
+		cls.bank_user = models.BankUser.objects.filter(firstname='Peters', lastname='Client')[0]
 
 	def test_firstname_does_not_allow_special_characters(self):
 		invalid_chars = ['!', '"', '#', '$', '%',
@@ -58,7 +59,21 @@ class UserValidationTest(TestCase):
 				new_user.save()
 
 	def test_iban_does_not_allow_special_characters(self):
-		pass
+		invalid_chars = ['!', '"', '#', '$', '%',
+			'(', ')', '[', ']', '{', '}', '|',
+			 '*', '+', '/', '\\', ':', '<', '=', '>',
+			 ';', '?', '@', '^', '_', '`', '~',
+			 ]
+
+		with pytest.raises(ValidationError):
+			account_args = {
+				'holder': self.bank_user,
+			}
+
+			for invalid_char in invalid_chars:
+				account_args['iban'] = 'DE1212345678012345678{}'.format(invalid_char)
+				new_account = models.BankAccount(**account_args)
+				new_account.save()
 
 	def test_iban_starts_with_country_code(self):
 		pass

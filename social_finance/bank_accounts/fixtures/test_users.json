@@ -1,0 +1,42 @@
+[
+    { "model": "bank_accounts.BankUser",
+        "pk": 1,
+        "fields": {
+            "admin": 1,
+            "firstname": "Peters",
+            "lastname": "Client"
+        }
+    },
+    { "model": "bank_accounts.BankUser",
+        "pk": 2,
+        "fields": {
+            "admin": 2,
+            "firstname": "Pauls",
+            "lastname": "Client"
+        }
+    },
+    { "model": "bank_accounts.BankUser",
+        "pk": 3,
+        "fields": {
+            "admin": 3,
+            "firstname": "Marys",
+            "lastname": "Client"
+        }
+    },
+    { "model": "bank_accounts.BankUser",
+        "pk": 4,
+        "fields": {
+            "admin": 3,
+            "firstname": "Marys Second",
+            "lastname": "Client"
+        }
+    },
+    { "model": "bank_accounts.BankUser",
+        "pk": 5,
+        "fields": {
+            "admin": 3,
+            "firstname": "Marys Third",
+            "lastname": "Client"
+        }
+    }
+]
