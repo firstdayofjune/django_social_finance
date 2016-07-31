@@ -3,4 +3,5 @@
 .pip
 .psql_history
 .vagrant
-__pycache__
+__pycache__/
+*.pyc
