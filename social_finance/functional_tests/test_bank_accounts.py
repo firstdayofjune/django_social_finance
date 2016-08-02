@@ -26,3 +26,13 @@ class AccountListingTest(StaticLiveServerTestCase):
 		user_panels = self.browser.find_elements_by_class_name('panel-group')
 		
 		assert len(user_panels) == len(BankUser.objects.all())
+
+	def test_if_users_accounts_are_listed(self):
+		self.browser.get(self.live_server_url)
+
+		user_panels = self.browser.find_elements_by_class_name('panel-group')
+		account_table = user_panels[0].find_element_by_class_name('table')
+		account_list = account_table.find_element_by_tag_name('tbody')
+		accounts = account_list.find_elements_by_tag_name('tr')
+		
+		assert len(accounts) == len(BankUser.objects.first().accounts.all())
