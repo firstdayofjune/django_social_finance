@@ -43,7 +43,7 @@ class BankAccount(models.Model):
 	code = 'invalid'
 	iban_format_validator = RegexValidator(iban_regex, message, code)
 
-	holder = models.ForeignKey(BankUser)
+	holder = models.ForeignKey(BankUser, related_name='accounts')
 	iban = models.CharField(max_length=34, validators=[NoSpecialCharacters(), iban_format_validator])
 
 	def save(self, *args, **kwargs):
