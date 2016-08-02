@@ -75,7 +75,7 @@ echo ""
 echo "##############################################"
 echo "Installing Python3, pip and django-packages"
 echo ""
-yes | pacman -S python python-pip
+yes | pacman -S python python-pip phantomjs
 
 pip install -r requirements.pip
 
