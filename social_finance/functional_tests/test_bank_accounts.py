@@ -66,18 +66,19 @@ class AccountListingTest(StaticLiveServerTestCase):
 		self.browser.get(self.live_server_url)
 
 		add_buttons = self.browser.find_elements_by_class_name('glyphicon-plus')
-		edit_button_target = edit_button.get_attribute('href')
+		add_user = add_buttons[0]
+		add_user_target = add_user.get_attribute('href')
 
-		edit_slug = reverse('bank-user-create', kwargs={'pk': BankUser.objects.first().id})
-		assert edit_button_target.endswith(edit_slug)
+		add_slug = reverse('bank-user-create')
+		assert edit_button_target.endswith(add_slug)
 
 
 	def test_if_edit_link_site_shows_empty_form(self):
 		self.browser.get(self.live_server_url)
 
-		user_panels = self.browser.find_elements_by_class_name('panel-group')
-		edit_button = user_panels[0].find_element_by_class_name('glyphicon-pencil')
-		edit_button.click()
+		add_buttons = self.browser.find_elements_by_class_name('glyphicon-plus')
+		add_user = add_buttons[0]
+		add_user.click()
 
 		firstname_field = self.browser.find_element_by_id('id_firstname')
 		lastname_field = self.browser.find_element_by_id('id_lastname')
