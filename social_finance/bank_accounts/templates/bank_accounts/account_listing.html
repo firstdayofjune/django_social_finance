@@ -6,7 +6,9 @@
 
 {% block content %}
 	<div class="container">
-		<h1>Accounts</h1>	
+		<h1>Accounts
+			<a class="pull-right glyphicon glyphicon-plus btn btn-success" href="{% url 'bank-user-create' %}"></a>
+		</h1>
 			{% for user in users %}
 				<div class="panel-group">
 				  <div class="panel panel-default">

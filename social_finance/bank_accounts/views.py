@@ -14,3 +14,8 @@ class BankUserUpdate(generic.edit.UpdateView):
 	model = bank_account_models.BankUser
 	success_url = '/'
 	fields = ['firstname', 'lastname']
+
+class BankUserCreate(generic.edit.CreateView):
+	model = bank_account_models.BankUser
+	success_url = '/'
+	fields = ['firstname', 'lastname']

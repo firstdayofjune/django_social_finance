@@ -70,7 +70,7 @@ class AccountListingTest(StaticLiveServerTestCase):
 		add_user_target = add_user.get_attribute('href')
 
 		add_slug = reverse('bank-user-create')
-		assert edit_button_target.endswith(add_slug)
+		assert add_user_target.endswith(add_slug)
 
 
 	def test_if_edit_link_site_shows_empty_form(self):
@@ -83,5 +83,5 @@ class AccountListingTest(StaticLiveServerTestCase):
 		firstname_field = self.browser.find_element_by_id('id_firstname')
 		lastname_field = self.browser.find_element_by_id('id_lastname')
 
-		assert firstname_field.get_attribute('value') is None
-		assert lastname_field.get_attribute('value') is None
+		assert firstname_field.get_attribute('value') == ''
+		assert lastname_field.get_attribute('value') == ''
