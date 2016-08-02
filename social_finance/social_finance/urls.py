@@ -16,6 +16,9 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from bank_accounts import views as bank_account_views
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', bank_account_views.account_listing, name='home'),
 ]

@@ -1,0 +1,37 @@
+[
+    { "model": "bank_accounts.BankAccount",
+        "pk": 1,
+        "fields": {
+            "holder": 1,
+            "iban": "AB120123456789012345678911"
+        }
+    },
+    { "model": "bank_accounts.BankAccount",
+        "pk": 2,
+        "fields": {
+            "holder": 2,
+            "iban": "AB120123456789012345678921"
+        }
+    },
+    { "model": "bank_accounts.BankAccount",
+        "pk": 3,
+        "fields": {
+            "holder": 3,
+            "iban": "AB120123456789012345678931"
+        }
+    },
+    { "model": "bank_accounts.BankAccount",
+        "pk": 4,
+        "fields": {
+            "holder": 3,
+            "iban": "AB120123456789012345678932"
+        }
+    },
+    { "model": "bank_accounts.BankAccount",
+        "pk": 5,
+        "fields": {
+            "holder": 3,
+            "iban": "AB120123456789012345678933"
+        }
+    }
+]

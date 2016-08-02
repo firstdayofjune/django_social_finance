@@ -7,3 +7,4 @@ __pycache__/
 *.pyc
 .python_history
 ghostdriver.log
+.DS_Store
