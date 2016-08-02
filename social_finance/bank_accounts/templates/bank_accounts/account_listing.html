@@ -6,25 +6,17 @@
 
 {% block content %}
 	<div class="container">
-		<h1>Accounts</h1>
-		
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th>Firstname</th>
-					<th>Lastname</th>
-					<th>IBAN</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for account in accounts %}
-	            	<tr>
-						<td>{{account.holder.firstname}}</td>
-						<td>{{account.holder.lastname}}</td>
-						<td>{{account.iban}}</td>
-					</tr>
-        		{% endfor %}
-			</tbody>
-		</table>
+		<h1>Accounts</h1>	
+			{% for user in users %}
+				<div class="panel-group">
+				  <div class="panel panel-default">
+				    <div class="panel-heading">
+				      <h4 class="panel-title">
+				        <a data-toggle="collapse" href="#accountPanel{{user.id}}">{{user.firstname}} {{user.lastname}}</a>
+				      </h4>
+				    </div>
+				  </div>
+				</div>
+			{% endfor %}
 	</div>
 {% endblock %}
