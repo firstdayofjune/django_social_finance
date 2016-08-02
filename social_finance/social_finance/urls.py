@@ -21,4 +21,5 @@ from bank_accounts import views as bank_account_views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', bank_account_views.AccountListing.as_view(), name='home'),
+    url(r'^bank-user/(?P<pk>[0-9]+)/$', bank_account_views.BankUserUpdate.as_view(), name='bank-user-update'),
 ]

@@ -1,8 +1,10 @@
 import os
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from bank_accounts.models import BankUser
+from django.core.urlresolvers import reverse
 from selenium import webdriver
+
+from bank_accounts.models import BankUser
 
 
 class AccountListingTest(StaticLiveServerTestCase):
@@ -42,5 +44,7 @@ class AccountListingTest(StaticLiveServerTestCase):
 
 		user_panels = self.browser.find_elements_by_class_name('panel-group')
 		edit_button = user_panels[0].find_element_by_class_name('glyphicon-pencil')
-		
-		assert edit_button.get_attribute('href') == '/edit_user/' + BankUser.objects.first().id + '/'
+		edit_button_target = edit_button.get_attribute('href')
+
+		edit_slug = reverse('bank-user-update', kwargs={'pk': BankUser.objects.first().id})
+		assert edit_button_target.endswith(edit_slug)
