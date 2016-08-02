@@ -36,3 +36,11 @@ class AccountListingTest(StaticLiveServerTestCase):
 		accounts = account_list.find_elements_by_tag_name('tr')
 		
 		assert len(accounts) == len(BankUser.objects.first().accounts.all())
+
+	def test_if_edit_link_redirects_to_correct_edit_site(self):
+		self.browser.get(self.live_server_url)
+
+		user_panels = self.browser.find_elements_by_class_name('panel-group')
+		edit_button = user_panels[0].find_element_by_class_name('glyphicon-pencil')
+		
+		assert edit_button.get_attribute('href') == '/edit_user/' + BankUser.objects.first().id + '/'
