@@ -1,7 +1,7 @@
 import os
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from bank_accounts.models import BankAccount
+from bank_accounts.models import BankUser
 from selenium import webdriver
 
 
@@ -20,11 +20,9 @@ class AccountListingTest(StaticLiveServerTestCase):
 	def tearDown(self):
 		self.browser.quit()
 
-	def test_if_admin_sees_a_list_of_all_accounts(self):
+	def test_if_admin_sees_a_list_of_all_users(self):
 		self.browser.get(self.live_server_url)
 
-		account_table = self.browser.find_element_by_class_name('table')
-		table_data = account_table.find_element_by_tag_name('tbody')
-		accounts_listed = table_data.find_elements_by_tag_name('tr')
-
-		assert len(accounts_listed) == len(BankAccount.objects.all())
+		user_panels = self.browser.find_elements_by_class_name('panel-group')
+		
+		assert len(user_panels) == len(BankUser.objects.all())
