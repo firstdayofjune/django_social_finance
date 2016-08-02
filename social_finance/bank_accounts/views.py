@@ -1,7 +1,13 @@
 from django.shortcuts import render
+from django.views import generic
 from bank_accounts.models import BankUser
 
 # Create your views here.
-def account_listing(request):
-	users = BankUser.objects.all()
-	return render(request, 'bank_accounts/account_listing.html', {'users': users})	
+class AccountListing(generic.ListView):
+	model = BankUser
+	template_name = 'bank_accounts/account_listing.html'
+	context_object_name = 'users'
+	
+
+
+
