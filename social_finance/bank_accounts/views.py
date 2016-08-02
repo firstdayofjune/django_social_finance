@@ -12,6 +12,5 @@ class AccountListing(generic.ListView):
 
 class BankUserUpdate(generic.edit.UpdateView):
 	model = bank_account_models.BankUser
-	template_name = 'bank_accounts/user_detail.html'
+	success_url = '/'
 	fields = ['firstname', 'lastname']
-

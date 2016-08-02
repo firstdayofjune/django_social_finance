@@ -1,0 +1,16 @@
+{% extends 'social_finance/base.html' %}
+{% load bootstrap3 %}
+
+{% block content %}
+	{% if object %}
+	    <h1>Update User</h1>
+	{% else %}
+	    <h1>Create User</h1>
+	{% endif %}
+
+	<form action="" method="post">
+		{% csrf_token %}
+	    {% bootstrap_form form %}
+	    <input type="submit" class="btn btn-primary">
+	</form>
+{% endblock %}
