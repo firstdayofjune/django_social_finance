@@ -30,7 +30,7 @@
     { "model": "bank_accounts.BankAccount",
         "pk": 5,
         "fields": {
-            "holder": 3,
+            "holder": 4,
             "iban": "AB120123456789012345678933"
         }
     }
