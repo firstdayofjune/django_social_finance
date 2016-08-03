@@ -102,6 +102,17 @@ class UserCRUDTest(StaticLiveServerTestCase):
 		assert firstname_field.get_attribute('value') == ''
 		assert lastname_field.get_attribute('value') == ''
 
+	def test_if_delete_link_redirects_to_correct_site(self):
+		self.browser.get(self.live_server_url)
+
+		user_panels = self.browser.find_elements_by_class_name('panel-group')
+		remove_button = user_panels[0].find_element_by_class_name('glyphicon-remove')
+		remove_button_target = remove_button.get_attribute('href')
+
+		remove_slug = reverse('bank-user-delete', kwargs={'pk': BankUser.objects.first().id})
+		assert remove_button_target.endswith(remove_slug)
+
+
 
 class AccountCRUDTest(StaticLiveServerTestCase):
 	fixtures = [
@@ -153,6 +164,24 @@ class AccountCRUDTest(StaticLiveServerTestCase):
 		iban_field = self.browser.find_element_by_id('id_iban')
 		
 		assert iban_field.get_attribute('value') == BankUser.objects.first().accounts.first().iban
+
+	def test_if_delete_link_redirects_to_correct_site(self):
+		self.browser.get(self.live_server_url)
+
+		user_panels = self.browser.find_elements_by_class_name('panel-group')
+		account_table = user_panels[0].find_element_by_class_name('table')
+		account_list = account_table.find_element_by_tag_name('tbody')
+		accounts = account_list.find_elements_by_tag_name('tr')
+
+		remove_button = accounts[0].find_element_by_class_name('glyphicon-remove')
+		remove_button_target = remove_button.get_attribute('href')
+
+		url_args = {
+			'user_id': BankUser.objects.first().id,
+			'pk': BankUser.objects.first().accounts.first().id,
+		}
+		remove_slug = reverse('bank-account-delete', kwargs=url_args)
+		assert remove_button_target.endswith(remove_slug)
 
 	def test_if_add_link_redirects_to_correct_edit_site(self):
 		self.browser.get(self.live_server_url)
