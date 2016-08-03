@@ -1,4 +1,5 @@
 import os
+import requests
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.urlresolvers import reverse
@@ -179,3 +180,25 @@ class AccountCRUDTest(StaticLiveServerTestCase):
 		iban_field = self.browser.find_element_by_id('id_iban')
 		
 		assert iban_field.get_attribute('value') == ''
+
+	def test_if_invalid_edit_user_returns_404(self):
+		url_args = {
+			'user_id': len(BankUser.objects.all()) + 1,
+			'pk': BankUser.objects.first().accounts.first().id,
+		}
+		invalid_edit_slug = reverse('bank-account-update', kwargs=url_args)
+		invalid_edit_url = self.live_server_url + invalid_edit_slug
+
+		response = requests.get(invalid_edit_url)
+		assert response.status_code == 404
+
+	def test_if_invalid_user_account_combination_returns_404(self):
+		url_args = {
+			'user_id': BankUser.objects.last().id,
+			'pk': BankUser.objects.first().accounts.first().id,
+		}
+		invalid_edit_slug = reverse('bank-account-update', kwargs=url_args)
+		invalid_edit_url = self.live_server_url + invalid_edit_slug
+
+		response = requests.get(invalid_edit_url)
+		assert response.status_code == 404
