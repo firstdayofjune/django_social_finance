@@ -6,7 +6,7 @@
 
 {% block content %}
 	<div class="container">
-		<h1>Accounts
+		<h1>Customers
 			<a class="pull-right glyphicon glyphicon-plus btn btn-success" href="{% url 'bank-user-create' %}"></a>
 		</h1>
 			{% for user in users %}
@@ -14,7 +14,7 @@
 				  <div class="panel panel-default">
 				    <div class="panel-heading">
 				      <h4 class="panel-title">
-				        <a data-toggle="collapse" href="#accountPanel{{user.id}}">{{user.firstname}} {{user.lastname}}</a>
+				        <a data-toggle="collapse" href="#accountPanel{{user.id}}">{{user.firstname}} {{user.lastname}} ({{user.accounts.all|length}})</a>
 				        <a class="pull-right glyphicon glyphicon-pencil" href="{% url 'bank-user-update' user.id %}"></a>
 				      </h4>
 				    </div>
@@ -23,7 +23,7 @@
 						<table class="table table-hover">
 							<thead>
 								<tr>
-									<th>Account</th>
+									<th>Account No</th>
 									<th>IBAN <a class="glyphicon glyphicon-plus" href="{% url 'bank-account-create' user.id %}"></a></th>
 								</tr>
 							</thead>
@@ -38,7 +38,10 @@
 							</tbody>
 						</table>	
 				      {% else %}
-				      	No Accounts available
+				      	<div class="alert alert-info">
+					      	There are no Accounts available yet.
+					      		<a class="btn btn-success" href="{% url 'bank-account-create' user.id %}"><span class="glyphicon glyphicon-plus"></span> Add account</a>
+					     </div>
 				      {% endif %}
 				    </div>
 				  </div>
