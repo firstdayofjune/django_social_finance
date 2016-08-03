@@ -74,6 +74,12 @@ class BankUserAccountUpdate(generic.edit.UpdateView):
 		self.account = self.holder.accounts.all().filter(id=self.kwargs['pk'])
 		return self.account
 
+	def form_valid(self, form):
+		if form.instance.holder != self.request.user:
+			return HttpResponse('Unauthorized - Only the Account-Holders admin can update the Account', status=401)
+		else:
+			return super(BankUserAccountUpdate, self).form_valid(form)
+
 
 class BankUserAccountDelete(generic.edit.DeleteView):
 	model = bank_account_models.BankAccount
