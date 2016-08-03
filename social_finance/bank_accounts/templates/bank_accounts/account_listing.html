@@ -7,7 +7,7 @@
 {% block content %}
 	<div class="container">
 		<h1>Customers
-			<a class="pull-right glyphicon glyphicon-plus btn btn-success" href="{% url 'bank-user-create' %}"></a>
+			<a class="pull-right btn btn-success" href="{% url 'bank-user-create' %}"><span class="glyphicon glyphicon-plus"></span> Add Customer</a>
 		</h1>
 			{% for user in users %}
 				<div class="panel-group">

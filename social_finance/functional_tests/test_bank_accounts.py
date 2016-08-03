@@ -82,7 +82,7 @@ class UserCRUDTest(StaticLiveServerTestCase):
 	def test_if_add_link_redirects_to_correct_edit_site(self):
 		self.browser.get(self.live_server_url)
 
-		add_buttons = self.browser.find_elements_by_class_name('glyphicon-plus')
+		add_buttons = self.browser.find_elements_by_class_name('btn-success')
 		add_user = add_buttons[0]
 		add_user_target = add_user.get_attribute('href')
 
@@ -92,7 +92,7 @@ class UserCRUDTest(StaticLiveServerTestCase):
 	def test_if_add_link_site_shows_empty_form(self):
 		self.browser.get(self.live_server_url)
 
-		add_buttons = self.browser.find_elements_by_class_name('glyphicon-plus')
+		add_buttons = self.browser.find_elements_by_class_name('btn-success')
 		add_user = add_buttons[0]
 		add_user.click()
 
