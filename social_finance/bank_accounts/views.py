@@ -1,5 +1,5 @@
 from django.core.urlresolvers import reverse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from bank_accounts import models as bank_account_models
 
@@ -23,6 +23,14 @@ class BankUserCreate(generic.edit.CreateView):
 
 
 class BankUserAccountUpdate(generic.edit.UpdateView):
+	model = bank_account_models.BankAccount
+	success_url = '/'
+	slug_field = 'holder_id'
+	slug_url_kwarg = 'user_id'
+	fields = ['iban']
+
+
+class BankUserAccountCreate(generic.edit.CreateView):
 	model = bank_account_models.BankAccount
 	success_url = '/'
 	slug_field = 'holder_id'
