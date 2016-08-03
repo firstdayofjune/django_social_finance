@@ -184,3 +184,26 @@ class AccountManipulationTest(TestCase):
 		
 		assert len(user.accounts.all()) == accounts_before
 
+	def test_account_cannot_be_created_by_foreign_admin(self):
+		user = models.BankUser.objects.first()
+		accounts_before = len(user.accounts.all())
+		
+		self.client.login(username='Paul', password='pauls_password')
+
+		create_account_url = reverse('bank-account-create', kwargs={'user_id': user.id})
+		
+		self.client.post(create_account_url, {'iban': 'DE121234567890123456789056'})
+
+		assert len(user.accounts.all()) == accounts_before
+
+	def test_account_holder_is_found_from_url(self):
+		user = models.BankUser.objects.first()
+		accounts_before = len(user.accounts.all())
+		
+		self.client.login(username='Peter', password='peters_password')
+
+		create_account_url = reverse('bank-account-create', kwargs={'user_id': user.id})
+		
+		self.client.post(create_account_url, {'iban': 'DE121234567890123456789056'})
+
+		assert len(user.accounts.all()) == accounts_before + 1
