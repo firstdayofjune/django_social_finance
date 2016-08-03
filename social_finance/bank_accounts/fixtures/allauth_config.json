@@ -1,0 +1,22 @@
+{
+  "model": "sites.site",
+  "pk": 1,
+  "fields": {
+    "domain": "0.0.0.0:8000",
+    "name": "0.0.0.0:8000"
+  }
+},
+{
+  "model": "socialaccount.socialapp",
+  "pk": 1,
+  "fields": {
+    "provider": "google",
+    "name": "Google",
+    "client_id": "659264018352-m0r00pb5sg445m13m2u4qq3q34k1kgcm.apps.googleusercontent.com",
+    "secret": "NDQYZiVWAk5Al6z3U83ZBOjB",
+    "key": "",
+    "sites": [
+      1
+    ]
+  }
+}

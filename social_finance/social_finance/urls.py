@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 
 from bank_accounts import views as bank_account_views
@@ -21,6 +21,7 @@ from bank_accounts import views as bank_account_views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', bank_account_views.AccountListing.as_view(), name='home'),
+    url('accounts/', include('allauth.urls')),
     # BankUser CUD
     url(r'^bank-user-create/$', bank_account_views.BankUserCreate.as_view(), name='bank-user-create'),
     url(r'^bank-user-update/(?P<pk>[0-9]+)/$', bank_account_views.BankUserUpdate.as_view(), name='bank-user-update'),
