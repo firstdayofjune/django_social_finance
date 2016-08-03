@@ -88,7 +88,7 @@ class UserCRUDTest(StaticLiveServerTestCase):
 		add_slug = reverse('bank-user-create')
 		assert add_user_target.endswith(add_slug)
 
-	def test_if_edit_link_site_shows_empty_form(self):
+	def test_if_add_link_site_shows_empty_form(self):
 		self.browser.get(self.live_server_url)
 
 		add_buttons = self.browser.find_elements_by_class_name('glyphicon-plus')
@@ -152,3 +152,30 @@ class AccountCRUDTest(StaticLiveServerTestCase):
 		iban_field = self.browser.find_element_by_id('id_iban')
 		
 		assert iban_field.get_attribute('value') == BankUser.objects.first().accounts.first().iban
+
+	def test_if_add_link_redirects_to_correct_edit_site(self):
+		self.browser.get(self.live_server_url)
+
+		user_panels = self.browser.find_elements_by_class_name('panel-group')
+		
+		account_table = user_panels[0].find_element_by_class_name('table')
+		add_button = account_table.find_element_by_class_name('glyphicon-plus')
+		add_account_target = add_button.get_attribute('href')
+
+		add_slug = reverse('bank-account-create', kwargs={'user_id': BankUser.objects.first().id,})
+		assert add_account_target.endswith(add_slug)
+
+	def test_if_add_link_site_shows_empty_form(self):
+		self.browser.get(self.live_server_url)
+
+		user_panels = self.browser.find_elements_by_class_name('panel-group')
+		
+		account_table = user_panels[0].find_element_by_class_name('table')
+		add_button = account_table.find_element_by_class_name('glyphicon-plus')
+		add_account_target = add_button.get_attribute('href')
+
+		self.browser.get(add_account_target)
+
+		iban_field = self.browser.find_element_by_id('id_iban')
+		
+		assert iban_field.get_attribute('value') == ''
