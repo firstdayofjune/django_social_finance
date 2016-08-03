@@ -173,3 +173,14 @@ class AccountManipulationTest(TestCase):
 		account = models.BankAccount.objects.filter(id=account_id)[0]
 		assert account.iban == iban_before
 
+	def test_account_cannot_be_deleted_by_foreign_admin(self):
+		user = models.BankUser.objects.first()
+		accounts_before = len(user.accounts.all())
+		
+		self.client.login(username='Paul', password='pauls_password')
+
+		delete_account_url = reverse('bank-account-delete', kwargs={'user_id': user.id, 'pk': user.accounts.first().id})
+		self.client.delete(delete_account_url)
+		
+		assert len(user.accounts.all()) == accounts_before
+

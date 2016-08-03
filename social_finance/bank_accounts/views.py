@@ -75,7 +75,7 @@ class BankUserAccountUpdate(generic.edit.UpdateView):
 		return self.account
 
 	def form_valid(self, form):
-		if form.instance.holder != self.request.user:
+		if form.instance.holder.admin != self.request.user:
 			return HttpResponse('Unauthorized - Only the Account-Holders admin can update the Account', status=401)
 		else:
 			return super(BankUserAccountUpdate, self).form_valid(form)
@@ -91,3 +91,10 @@ class BankUserAccountDelete(generic.edit.DeleteView):
 		self.holder = get_object_or_404(bank_account_models.BankUser, id=self.kwargs['user_id'])
 		self.account = self.holder.accounts.all().filter(id=self.kwargs['pk'])
 		return self.account
+
+	def delete(self, request, *args, **kwargs):
+		bank_account = self.get_object()
+		if bank_account.holder.admin != request.user:
+			return HttpResponse('Unauthorized - Only the Account-Holders admin can delete the Account', status=401)
+		else:
+			return super(BankUserAccountDelete, self).delete(request, *args, **kwargs)
