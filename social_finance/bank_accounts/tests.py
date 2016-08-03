@@ -114,10 +114,25 @@ class UserManipulationTest(TestCase):
 	]
 
 	def test_user_cannot_be_updated_by_foreign_admin(self):
-		pass
+		username_before = models.BankUser.objects.first().firstname
+		self.client.login(username='Paul', password='pauls_password')
+		update_user_url = reverse('bank-user-update', kwargs={'pk': 1})
+		user_args = {
+			'firstname': 'Pauls',
+			'lastname': 'Client',
+		}
+		self.client.post(update_user_url, user_args)
+
+		assert models.BankUser.objects.first().firstname == username_before
 
 	def test_user_cannot_be_deleted_by_foreign_admin(self):
-		pass
+		users_before = len(models.BankUser.objects.all())
+
+		self.client.login(username='Paul', password='pauls_password')
+		delete_user_url = reverse('bank-user-delete', kwargs={'pk': 1})
+		self.client.delete(delete_user_url)
+
+		assert len(models.BankUser.objects.all()) == users_before
 
 	def test_user_admin_is_set_automatically(self):
 		users_before = len(models.BankUser.objects.all())
@@ -128,9 +143,8 @@ class UserManipulationTest(TestCase):
 			'firstname': 'Peter',
 			'lastname': 'Gabriel',
 		}
-		response = self.client.post(create_user_url, user_args)
-		print(response.content)
-
+		self.client.post(create_user_url, user_args)
+		
 		assert len(models.BankUser.objects.all()) == users_before + 1
 
 		last_users_admin = models.BankUser.objects.last().admin

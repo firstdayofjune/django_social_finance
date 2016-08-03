@@ -1,4 +1,5 @@
 from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views import generic
 from bank_accounts import models as bank_account_models
@@ -30,10 +31,24 @@ class BankUserUpdate(generic.edit.UpdateView):
 	success_url = reverse_lazy('home')
 	fields = ['firstname', 'lastname']
 
+	def form_valid(self, form):
+		if form.instance.admin != self.request.user:
+			return HttpResponse('Unauthorized - Only the Users admin can update the User', status=401)
+		else:
+			return super(BankUserUpdate, self).form_valid(form)
+
+
 
 class BankUserDelete(generic.edit.DeleteView):
 	model = bank_account_models.BankUser
 	success_url = reverse_lazy('home')
+
+	def delete(self, request, *args, **kwargs):
+		bank_user = self.get_object()
+		if bank_user.admin != request.user:
+			return HttpResponse('Unauthorized - Only the Users admin can delete the User', status=401)
+		else:
+			return super(BankUserDelete, self).delete(request, *args, **kwargs)
 
 
 #############################
