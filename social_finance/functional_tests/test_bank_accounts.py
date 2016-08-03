@@ -119,7 +119,7 @@ class UserCRUDTest(StaticLiveServerTestCase):
 		remove_button = user_panels[0].find_element_by_class_name('glyphicon-remove')
 		remove_button.click()
 
-		confirm_button = self.browser.find_element_by_tag_name('input')
+		confirm_button = self.browser.find_elements_by_tag_name('input')[1]
 		assert confirm_button.get_attribute('type') == 'submit'
 
 
@@ -205,7 +205,7 @@ class AccountCRUDTest(StaticLiveServerTestCase):
 
 		self.browser.get(remove_button_target)
 
-		confirm_button = self.browser.find_element_by_tag_name('input')
+		confirm_button = self.browser.find_elements_by_tag_name('input')[1]
 		assert confirm_button.get_attribute('type') == 'submit'
 
 	def test_if_add_link_redirects_to_correct_edit_site(self):
