@@ -32,7 +32,7 @@
 								{% for account in user.accounts.all %}
 									<tr>
 										<td>{{ account.id }}</td>
-										<td>{{ account.iban }}</td>
+										<td>{{ account.iban }} <a class="glyphicon glyphicon-pencil" href="{% url 'bank-account-update' user.id account.id%}"></a></td>
 									</tr>
 				      			{% endfor %}
 							</tbody>

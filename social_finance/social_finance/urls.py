@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^$', bank_account_views.AccountListing.as_view(), name='home'),
     url(r'^bank-user-create/$', bank_account_views.BankUserCreate.as_view(), name='bank-user-create'),
     url(r'^bank-user-update/(?P<pk>[0-9]+)/$', bank_account_views.BankUserUpdate.as_view(), name='bank-user-update'),
+    url(r'^bank-user/(?P<user_id>[0-9]+)/account-update/(?P<pk>[0-9]+)/$', bank_account_views.BankUserAccountUpdate.as_view(), name='bank-account-update'),
 ]

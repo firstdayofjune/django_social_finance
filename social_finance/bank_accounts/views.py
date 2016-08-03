@@ -15,7 +15,16 @@ class BankUserUpdate(generic.edit.UpdateView):
 	success_url = '/'
 	fields = ['firstname', 'lastname']
 
+
 class BankUserCreate(generic.edit.CreateView):
 	model = bank_account_models.BankUser
 	success_url = '/'
 	fields = ['firstname', 'lastname']
+
+
+class BankUserAccountUpdate(generic.edit.UpdateView):
+	model = bank_account_models.BankAccount
+	success_url = '/'
+	slug_field = 'holder_id'
+	slug_url_kwarg = 'user_id'
+	fields = ['iban']
