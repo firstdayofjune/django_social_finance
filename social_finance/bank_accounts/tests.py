@@ -149,3 +149,27 @@ class UserManipulationTest(TestCase):
 
 		last_users_admin = models.BankUser.objects.last().admin
 		assert last_users_admin.username == 'Peter'
+
+
+@pytest.mark.django_db
+class AccountManipulationTest(TestCase):
+	fixtures = [
+		os.path.join('bank_accounts', 'fixtures', 'test_admins.json'),
+		os.path.join('bank_accounts', 'fixtures', 'test_users.json'),
+		os.path.join('bank_accounts', 'fixtures', 'test_accounts.json'),
+	]
+
+	def test_account_cannot_be_updated_by_foreign_admin(self):
+		user = models.BankUser.objects.first()
+		account = user.accounts.first()
+		account_id = account.id
+		iban_before = account.iban
+		self.client.login(username='Paul', password='pauls_password')
+
+		update_account_url = reverse('bank-account-update', kwargs={'user_id': user.id, 'pk': account_id})
+		
+		self.client.post(update_account_url, {'iban': 'DE12123456789012345678'})
+
+		account = models.BankAccount.objects.filter(id=account_id)[0]
+		assert account.iban == iban_before
+
