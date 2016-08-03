@@ -1,4 +1,5 @@
 {% extends 'social_finance/base.html' %}
+{% load bank_accounts_extras %}
 
 {% block title %}
 	{{ block.super }} - Accounts
@@ -47,7 +48,7 @@
 									<tr>
 										<td>{{ account.id }}</td>
 										<td>
-											{{ account.iban }} 
+											{% format_iban account.iban %}
 											{% if customer.admin == user %}
 				      							<a class="glyphicon glyphicon-pencil" href="{% url 'bank-account-update' customer.id account.id %}"></a>	
 				      						{% else %}
