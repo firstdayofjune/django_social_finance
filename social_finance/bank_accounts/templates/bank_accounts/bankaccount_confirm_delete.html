@@ -1,7 +1,7 @@
 {% extends 'social_finance/base.html' %}
 
 {% block content %}
-
+<div class="col-md-6">
     <h1>Delete Account {{object.id}}</h1>
     <h4>IBAN: {{ object.iban }}</h4>
 
@@ -12,4 +12,5 @@
 	    <input type="submit" class="btn btn-danger" value="Delete Account">
 	    <a class="btn btn-default" href="{% url 'home' %}">Keep Account</a>
 	</form>
+</div>
 {% endblock %}

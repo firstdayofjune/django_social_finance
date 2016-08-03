@@ -1,0 +1,51 @@
+{% extends "social_finance/base.html" %}
+
+{% load i18n %}
+{% load socialaccount %}
+
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+<div class="panel panel-default box-center">
+  
+  <div class="panel-heading">
+    <h1 class="panel-title">Sign In</h1>
+  </div>
+
+  <div class="panel-body">
+    <form class="form-group" method="POST" action="{% url 'account_login' %}">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <div class="form-group">
+        <label for="id_login">Username</label>
+        <input id="id_login" class="form-control" maxlength="30" name="login" placeholder="Username" type="text" />{{ form.login.errors }}
+      </div>
+      
+      <div class="form-group">
+        <label for="id_password">Password</label>
+        <input id="id_password"  class="form-control" name="password" placeholder="Password" type="password" />{{ form.password.errors }}
+      </div>
+      
+
+      <div class="checkbox">
+        <label>
+          <input id="id_remember" name="remember" type="checkbox" /> Remember Me
+        </label>
+      </div>
+
+      {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+      <button class="btn btn-default primaryAction" type="submit">{% trans "Sign In" %}</button>
+    </form>
+
+    <a class="forgot" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+  </div>
+
+  <div class="panel-footer">
+     <p>Don't have an account? <a href="{% url 'account_signup' %}">Sign Up</a> or</p>
+            <a class="btn btn-default" href="{% provider_login_url "google" %}"><i class="fa fa-google"></i> | Sign in using google</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'social_finance/base.html' %}
 
 {% block content %}
-
+<div class="col-md-6">
     <h1>Delete User {{object.id}}</h1>
     <h4>{{ object.firstname }} {{ object.lastname }}</h4>
 
@@ -13,4 +13,5 @@
 	    <a class="btn btn-default" href="{% url 'home' %}">Keep User</a>
 	</form>
 	<p style="margin: 30px 0 30px 0">* Pleaso note: This will also delete all bank-accounts belonging to the user!</p>
+</div>
 {% endblock %}

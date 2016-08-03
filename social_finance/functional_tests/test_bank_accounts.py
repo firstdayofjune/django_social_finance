@@ -288,5 +288,5 @@ class AuthorizationTest(StaticLiveServerTestCase):
 	def test_if_google_login_form_works(self):
 		self.browser.get(self.live_server_url)
 
-		assert 'Google' in self.browser.page_source
+		assert 'google' in self.browser.page_source
 
