@@ -3,21 +3,21 @@
         "pk": 1,
         "fields": {
             "username": "Peter",
-            "password": "peters_password"
+            "password": "pbkdf2_sha256$24000$8ekcLHAAKoWk$SOE4OkSNLt7nah8GQT5bUFiNccX86EH7CGSAqlSSf1s="
         }
     },
     { "model": "auth.user",
         "pk": 2,
         "fields": {
             "username": "Paul",
-            "password": "pauls_password"
+            "password": "pbkdf2_sha256$24000$yg0WDLbPMN5K$Oya7IpG/MCsiFDx2KWvoHVMILvIY/1y4G5nXcVfJKvo="
         }
     },
     { "model": "auth.user",
         "pk": 3,
         "fields": {
             "username": "Mary",
-            "password": "marrys_password"
+            "password": "pbkdf2_sha256$24000$XsrzU5V96dzL$lsomVz5k9e1+yYKRJkqDrS4t2aZHef5eh1Tk2cFjcuE="
         }
     }
 ]

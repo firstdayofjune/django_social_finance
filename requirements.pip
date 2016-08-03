@@ -6,5 +6,5 @@ six==1.10.0
 pytest==2.9.2
 selenium==2.53.6
 django-bootstrap3==7.0.1
+django-allauth==0.26.1
 requests==2.10.0
-python-social-auth==0.2.19

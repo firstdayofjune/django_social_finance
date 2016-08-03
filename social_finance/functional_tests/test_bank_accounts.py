@@ -3,9 +3,20 @@ import requests
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.urlresolvers import reverse
+from django.test import Client
 from selenium import webdriver
 
 from bank_accounts.models import BankUser
+
+def visit_login(driver, login_url):
+	driver.get(login_url)
+	username = driver.find_element_by_id('id_login')
+	password = driver.find_element_by_id('id_password')
+	username.send_keys('Peter')
+	password.send_keys('peters_password')
+
+	login_btn = driver.find_element_by_class_name('primaryAction')
+	login_btn.click()		
 
 
 class AccountListingTest(StaticLiveServerTestCase):
@@ -19,6 +30,8 @@ class AccountListingTest(StaticLiveServerTestCase):
 		self.browser = webdriver.PhantomJS()
 		self.browser.set_window_size(1024, 768)
 		self.browser.implicitly_wait(3)
+		login_url = self.live_server_url + '/accounts/login'
+		visit_login(self.browser, login_url)
 
 	def tearDown(self):
 		self.browser.quit()
@@ -52,6 +65,8 @@ class UserCRUDTest(StaticLiveServerTestCase):
 		self.browser = webdriver.PhantomJS()
 		self.browser.set_window_size(1024, 768)
 		self.browser.implicitly_wait(3)
+		login_url = self.live_server_url + '/accounts/login'
+		visit_login(self.browser, login_url)
 
 	def tearDown(self):
 		self.browser.quit()
@@ -134,6 +149,8 @@ class AccountCRUDTest(StaticLiveServerTestCase):
 		self.browser = webdriver.PhantomJS()
 		self.browser.set_window_size(1024, 768)
 		self.browser.implicitly_wait(3)
+		login_url = self.live_server_url + '/accounts/login'
+		visit_login(self.browser, login_url)
 
 	def tearDown(self):
 		self.browser.quit()
@@ -243,8 +260,8 @@ class AccountCRUDTest(StaticLiveServerTestCase):
 		invalid_edit_slug = reverse('bank-account-update', kwargs=url_args)
 		invalid_edit_url = self.live_server_url + invalid_edit_slug
 
-		response = requests.get(invalid_edit_url)
-		assert response.status_code == 404
+		self.browser.get(invalid_edit_url)
+		assert 'Not Found' in self.browser.page_source
 
 	def test_if_invalid_user_account_combination_returns_404(self):
 		url_args = {
@@ -254,8 +271,8 @@ class AccountCRUDTest(StaticLiveServerTestCase):
 		invalid_edit_slug = reverse('bank-account-update', kwargs=url_args)
 		invalid_edit_url = self.live_server_url + invalid_edit_slug
 
-		response = requests.get(invalid_edit_url)
-		assert response.status_code == 404
+		self.browser.get(invalid_edit_url)
+		assert 'Not Found' in self.browser.page_source
 
 
 class AuthorizationTest(StaticLiveServerTestCase):
@@ -271,17 +288,5 @@ class AuthorizationTest(StaticLiveServerTestCase):
 	def test_if_google_login_form_works(self):
 		self.browser.get(self.live_server_url)
 
-		google_login = self.browser.find_element_by_id("google_login")
-
-		email_field = self.browser.find_element_by_xpath("//input[@name='email']")
-		pw_field = self.browser.find_element_by_xpath("//input[@name='password']")
-		submit_btn = self.browser.find_element_by_xpath("//button[@type='submit']")
-
-		email_field.send_keys('leo.graphy@example.com')
-		pw_field.send_keys('p455w0rd')
-		
-		submit_btn.click()
-		user_panels = self.browser.find_elements_by_class_name('panel-group')
-			
-		assert len(user_panels) == len(BankUser.objects.all())
+		assert 'Google' in self.browser.page_source
 
