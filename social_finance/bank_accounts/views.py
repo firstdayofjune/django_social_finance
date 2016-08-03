@@ -20,6 +20,10 @@ class BankUserCreate(generic.edit.CreateView):
 	success_url = reverse_lazy('home')
 	fields = ['firstname', 'lastname']
 
+	def form_valid(self, form):
+		form.instance.admin = self.request.user
+		return super(BankUserCreate, self).form_valid(form)
+
 
 class BankUserUpdate(generic.edit.UpdateView):
 	model = bank_account_models.BankUser

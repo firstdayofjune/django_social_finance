@@ -4,6 +4,7 @@ import pytest
 from bank_accounts import models
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 
 
@@ -109,21 +110,28 @@ class UserValidationTest(TestCase):
 class UserManipulationTest(TestCase):
 	fixtures = [
 		os.path.join('bank_accounts', 'fixtures', 'test_admins.json'),
+		os.path.join('bank_accounts', 'fixtures', 'test_users.json'),
 	]
-
-	@classmethod
-	def setUpClass(cls):
-		super(UserManipulationTest, cls).setUpClass()
-		cls.User = get_user_model()
-
-		# Fix the clear-text passwords of fixtures
-		for user in cls.User.objects.all():
-			user.set_password(user.password)
-			user.save()
-
 
 	def test_user_cannot_be_updated_by_foreign_admin(self):
 		pass
 
 	def test_user_cannot_be_deleted_by_foreign_admin(self):
 		pass
+
+	def test_user_admin_is_set_automatically(self):
+		users_before = len(models.BankUser.objects.all())
+
+		self.client.login(username='Peter', password='peters_password')
+		create_user_url = reverse('bank-user-create')
+		user_args = {
+			'firstname': 'Peter',
+			'lastname': 'Gabriel',
+		}
+		response = self.client.post(create_user_url, user_args)
+		print(response.content)
+
+		assert len(models.BankUser.objects.all()) == users_before + 1
+
+		last_users_admin = models.BankUser.objects.last().admin
+		assert last_users_admin.username == 'Peter'
