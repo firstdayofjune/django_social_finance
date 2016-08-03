@@ -54,3 +54,15 @@ class BankUserAccountUpdate(generic.edit.UpdateView):
 		self.holder = get_object_or_404(bank_account_models.BankUser, id=self.kwargs['user_id'])
 		self.account = self.holder.accounts.all().filter(id=self.kwargs['pk'])
 		return self.account
+
+
+class BankUserAccountDelete(generic.edit.DeleteView):
+	model = bank_account_models.BankAccount
+	success_url = reverse_lazy('home')
+	slug_field = 'holder_id'
+	slug_url_kwarg = 'user_id'
+
+	def get_queryset(self):
+		self.holder = get_object_or_404(bank_account_models.BankUser, id=self.kwargs['user_id'])
+		self.account = self.holder.accounts.all().filter(id=self.kwargs['pk'])
+		return self.account
