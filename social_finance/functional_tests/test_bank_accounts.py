@@ -256,3 +256,32 @@ class AccountCRUDTest(StaticLiveServerTestCase):
 
 		response = requests.get(invalid_edit_url)
 		assert response.status_code == 404
+
+
+class AuthorizationTest(StaticLiveServerTestCase):
+	
+	def setUp(self):
+		self.browser = webdriver.PhantomJS()
+		self.browser.set_window_size(1024, 768)
+		self.browser.implicitly_wait(3)
+
+	def tearDown(self):
+		self.browser.quit()
+
+	def test_if_google_login_form_works(self):
+		self.browser.get(self.live_server_url)
+
+		google_login = self.browser.find_element_by_id("google_login")
+
+		email_field = self.browser.find_element_by_xpath("//input[@name='email']")
+		pw_field = self.browser.find_element_by_xpath("//input[@name='password']")
+		submit_btn = self.browser.find_element_by_xpath("//button[@type='submit']")
+
+		email_field.send_keys('leo.graphy@example.com')
+		pw_field.send_keys('p455w0rd')
+		
+		submit_btn.click()
+		user_panels = self.browser.find_elements_by_class_name('panel-group')
+			
+		assert len(user_panels) == len(BankUser.objects.all())
+
