@@ -10,8 +10,10 @@ from bank_accounts import models as bank_account_models
 class AccountListing(generic.ListView):
 	model = bank_account_models.BankUser
 	template_name = 'bank_accounts/account_listing.html'
-	context_object_name = 'users'
+	context_object_name = 'customers'
+	queryset = bank_account_models.BankUser.objects.order_by('id')
 	
+
 
 #############################
 ##### BankUser CUD

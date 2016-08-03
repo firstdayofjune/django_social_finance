@@ -5,3 +5,16 @@
 .table td .glyphicon-remove {
 	color: #AA0000;
 }
+
+.container-fluid {
+	margin-top: 70px;
+}
+
+span.glyph-placeholder {
+	display: inline-block;
+	width: 25px;
+}
+
+tbody td:first-of-type {
+	width: 20%;
+}

@@ -9,36 +9,57 @@
 		<h1>Customers
 			<a class="pull-right btn btn-success" href="{% url 'bank-user-create' %}"><span class="glyphicon glyphicon-plus"></span> Add Customer</a>
 		</h1>
-			{% for user in users %}
+			{% for customer in customers %}
 				<div class="panel-group">
 				  <div class="panel panel-default">
 				    <div class="panel-heading">
 				      <h4 class="panel-title">
-				      	<a class="glyphicon glyphicon-pencil" href="{% url 'bank-user-update' user.id %}"></a> &nbsp;
-				        <a data-toggle="collapse" href="#accountPanel{{user.id}}">{{user.firstname}} {{user.lastname}} ({{user.accounts.all|length}})</a>
-				        <a class="pull-right glyphicon glyphicon-remove" href="{% url 'bank-user-delete' user.id %}"></a>
+				      	{% if customer.admin == user %}
+				      		<a class="glyphicon glyphicon-pencil" href="{% url 'bank-user-update' customer.id %}"></a> &nbsp;
+				      	{% else %}
+				      		<span class="glyph-placeholder"></span>
+				      	{% endif %}
+				        <a data-toggle="collapse" href="#accountPanel{{customer.id}}">{{customer.firstname}} {{customer.lastname}} ({{customer.accounts.all|length}})</a>
+				        {% if customer.admin == user %}
+				      		<a class="pull-right glyphicon glyphicon-remove" href="{% url 'bank-user-delete' customer.id %}"></a>
+				      	{% endif %}
 				      </h4>
 				    </div>
-				    <div id="accountPanel{{user.id}}" class="panel-collapse collapse">
-				      {% if user.accounts.all|length %}
+				    <div id="accountPanel{{customer.id}}" class="panel-collapse collapse">
+				      {% if customer.accounts.all|length %}
 						<table class="table table-hover">
 							<thead>
 								<tr>
 									<th>Account No</th>
 									<th>IBAN</th>
-									<th><a class="glyphicon glyphicon-plus" href="{% url 'bank-account-create' user.id %}"></a></th>
+									<th>
+										{% if customer.admin == user %}
+				      						<a class="glyphicon glyphicon-plus" href="{% url 'bank-account-create' customer.id %}"></a>	
+				      					{% else %}
+				      						<span class="glyph-placeholder"></span>
+				      					{% endif %}
+									</th>
 								</tr>
 							</thead>
 
 							<tbody>
-								{% for account in user.accounts.all %}
+								{% for account in customer.accounts.all %}
 									<tr>
 										<td>{{ account.id }}</td>
 										<td>
-											{{ account.iban }} <a class="glyphicon glyphicon-pencil" href="{% url 'bank-account-update' user.id account.id %}"></a>
+											{{ account.iban }} 
+											{% if customer.admin == user %}
+				      							<a class="glyphicon glyphicon-pencil" href="{% url 'bank-account-update' customer.id account.id %}"></a>	
+				      						{% else %}
+				      							<span class="glyph-placeholder"></span>
+				      						{% endif %}
 										</td>
 										<td>
-											<a class="glyphicon glyphicon-remove" href="{% url 'bank-account-delete' user.id account.id %}"></a>
+											{% if customer.admin == user %}
+				      							<a class="glyphicon glyphicon-remove" href="{% url 'bank-account-delete' customer.id account.id %}"></a>
+				      						{% else %}
+				      							<span class="glyph-placeholder"></span>
+				      						{% endif %}											
 										</td>
 									</tr>
 				      			{% endfor %}
@@ -47,7 +68,11 @@
 				      {% else %}
 				      	<div class="alert alert-info">
 					      	There are no Accounts available yet.
-					      		<a class="btn btn-success" href="{% url 'bank-account-create' user.id %}"><span class="glyphicon glyphicon-plus"></span> Add account</a>
+					      	{% if customer.admin == user %}
+	  							<a class="btn btn-success" href="{% url 'bank-account-create' customer.id %}"><span class="glyphicon glyphicon-plus"></span> Add account</a>
+	  						{% else %}
+	  							Ask {{customer.admin}} to create an account for the user.
+	  						{% endif %}	
 					     </div>
 				      {% endif %}
 				    </div>

@@ -22,6 +22,7 @@ from bank_accounts import views as bank_account_views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', login_required(bank_account_views.AccountListing.as_view()), name='home'),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='auth_logout'),
     url('accounts/', include('allauth.urls')),
     # BankUser CUD
     url(r'^bank-user-create/$', login_required(bank_account_views.BankUserCreate.as_view()), name='bank-user-create'),
