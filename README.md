@@ -48,3 +48,8 @@ Some unit- and integration-tests are provided, and can be run using the `py.test
 `cd social_finance`
 
 `py.test functional_tests/`
+
+
+## Issues
+Unfortunately, when provisioning the VM in a Windows environment, the mounting of shared folders is leading to errors and the application can therefore not be run directly. If on Windows, you could still follow the abovementioned progress, but you would have to clone the repository again from within the vm (so after connecting to the machine using `vagrant ssh`).
+Furthermore, git has to be installed to do so (`sudo pacman -S git`) and the fixtures have to be loaded, if you want the application to contain initial data (refer to bootstrap.sh [93:96] to see how the loading of fixtures can be done).
