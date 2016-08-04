@@ -52,7 +52,7 @@ systemctl restart postgresql.service
 
 cat << EOF | su - postgres -c psql
 -- Create the database user:
-CREATE USER $APP_DB_USER CREATEDB WITH PASSWORD '$APP_DB_PASS';
+CREATE USER $APP_DB_USER WITH PASSWORD '$APP_DB_PASS' CREATEDB;
 
 -- Create the database:
 CREATE DATABASE $APP_DB_NAME WITH OWNER=$APP_DB_USER
@@ -79,7 +79,6 @@ yes | pacman -S python python-pip phantomjs
 
 pip install -r requirements.pip
 
-
 # set environment variables which will be read from django
 echo 'export DJANGO_SECRET_KEY="io&o60txl_-0k=((ap@ykvrbs%n#!wpltaja-jul0pta(d40d4"' >> /etc/profile
 echo "export DJANGO_DB_USER=$APP_DB_USER" >> /etc/profile
@@ -89,3 +88,15 @@ echo "export DJANGO_DB_PW=$APP_DB_PASS" >> /etc/profile
 echo "Successfully installed python & django."
 echo "##############################################"
 echo ""
+
+source /etc/profile
+cd /home/vagrant/social_finance
+python manage.py migrate
+python manage.py loaddata bank_accounts/fixtures/test_*
+python manage.py loaddata bank_accounts/fixtures/allauth_config.json
+
+echo ""
+echo "##############################################"
+echo ""
+echo "Your mashine was provisioned successfully."
+echo "You can now connect to your mashine typing: $ vagrant ssh"
