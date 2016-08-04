@@ -16,13 +16,14 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import logout as auth_logout
 
 from bank_accounts import views as bank_account_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', login_required(bank_account_views.AccountListing.as_view()), name='home'),
-    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='auth_logout'),
+    url(r'^accounts/logout/$', auth_logout, {'next_page': '/'}, name='auth_logout'),
     url('accounts/', include('allauth.urls')),
     # BankUser CUD
     url(r'^bank-user-create/$', login_required(bank_account_views.BankUserCreate.as_view()), name='bank-user-create'),
